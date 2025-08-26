@@ -73,7 +73,10 @@ app.get('/scrape-multiple', async (req, res) => {
       });
       url = chapterData.nextUrl;
     }
-    res.json(chapters);
+    res.json({
+      chapters: chapters,
+      nextPageUrl: url
+    });
   } catch (error) {
     console.error('Error during multiple chapter scrape:', error.message);
     res.status(500).send('An error occurred while fetching multiple chapters.');

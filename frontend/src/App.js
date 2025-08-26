@@ -11,24 +11,43 @@ function App() {
   const [fontSize, setFontSize] = useState(16);
 
   const handleFetchMultipleChapters = async (fetchUrl) => {
+    // Defensive: don't attempt to fetch when URL is falsy
+    if (!fetchUrl) {
+      console.warn('handleFetchMultipleChapters called without a fetchUrl');
+      return;
+    }
+
     setIsFetching(true);
-    setChapters([]);
     setCurrentChapterIndex(0);
     setNextPageUrl(null);
+
     try {
       const response = await fetch(`http://localhost:3001/scrape-multiple?url=${encodeURIComponent(fetchUrl)}`);
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
       }
       const data = await response.json();
-      console.log('Received data:', data); // Added for debugging
-      setChapters(data); // Fix: data itself is the array of chapters
-      setNextPageUrl(data.nextPageUrl); // Assuming nextPageUrl is still a property of the response object
+      console.log('Received data:', data);
+
+      // Validate chapters before spreading to avoid "not iterable" errors
+      const newChapters = Array.isArray(data.chapters) ? data.chapters : [];
+
+      if (newChapters.length > 0) {
+        // Replace previous chapters with the newly fetched batch so old 10 disappear
+        setChapters(newChapters);
+      } else {
+        // If no chapters returned, show a helpful message
+        setChapters([{ title: 'No chapters found', content: 'The server returned no chapters.' }]);
+      }
+
+      setNextPageUrl(data && data.nextPageUrl ? data.nextPageUrl : null);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
       setChapters([{ title: 'Error', content: 'Failed to fetch chapters. Please check the console.' }]);
+      setNextPageUrl(null);
+    } finally {
+      setIsFetching(false);
     }
-    setIsFetching(false);
   };
 
   const toggleTheme = () => {
