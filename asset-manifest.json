@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/web-novel-reader/static/css/main.5bf7c5b7.css",
+    "main.js": "/web-novel-reader/static/js/main.3d742cf1.js",
+    "static/js/453.670e15c7.chunk.js": "/web-novel-reader/static/js/453.670e15c7.chunk.js",
+    "index.html": "/web-novel-reader/index.html",
+    "main.5bf7c5b7.css.map": "/web-novel-reader/static/css/main.5bf7c5b7.css.map",
+    "main.3d742cf1.js.map": "/web-novel-reader/static/js/main.3d742cf1.js.map",
+    "453.670e15c7.chunk.js.map": "/web-novel-reader/static/js/453.670e15c7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5bf7c5b7.css",
+    "static/js/main.3d742cf1.js"
+  ]
+}
